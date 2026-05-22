@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>SANSÃO — O Herói da Força Suprema</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #080808;
+    font-family: 'Bebas Neue', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  .manga-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    background: linear-gradient(160deg, #f5f0e8 0%, #ede4d3 100%);
+    color: #111;
+    min-height: 100vh;
+  }
+
+  /* ============ HEADER ============ */
+  .manga-header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 6px solid #111;
+    padding-bottom: 22px;
+    position: relative;
+  }
+  .manga-title {
+    font-family: 'Bangers', cursive;
+    font-size: 6rem;
+    letter-spacing: 8px;
+    color: #8B0000;
+    text-shadow: 5px 5px 0 #111, 10px 10px 0 #d4af00;
+    line-height: 1;
+  }
+  .manga-subtitle {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.3rem;
+    color: #333;
+    margin-top: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .manga-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 16px;
+    background: #8B0000;
+    color: #d4af00;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 3px;
+    font-size: 1rem;
+    transform: rotate(-1.5deg);
+    margin-right: 8px;
+  }
+  .manga-tag-2 {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 16px;
+    background: #111;
+    color: #d4af00;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 3px;
+    font-size: 1rem;
+    transform: rotate(1deg);
+  }
+  .manga-verse {
+    margin-top: 14px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* ============ ATO HEADERS ============ */
+  .ato-header {
+    margin: 30px 0 14px 0;
+    padding: 10px 20px;
+    background: #111;
+    color: #d4af00;
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+    border-left: 8px solid #8B0000;
+    box-shadow: 4px 4px 0 #8B0000;
+  }
+  .ato-header span {
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 2px;
+    margin-left: 12px;
+  }
+
+  /* ============ PANEL GRID ============ */
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    grid-auto-flow: dense;
+    margin-bottom: 10px;
+  }
+  .panel {
+    position: relative;
+    background: #000;
+    border: 5px solid #111;
+    overflow: hidden;
+    box-shadow: 5px 5px 0 #111;
+  }
+  .panel-medium { aspect-ratio: 4/3; }
+  .panel-splash  { grid-column: span 2; aspect-ratio: 16/9; }
+
+  .panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ============ BUBBLES ============ */
+  .bubble {
+    position: absolute;
+    background: rgba(255,255,255,0.97);
+    padding: 6px 11px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.78rem;
+    color: #111;
+    z-index: 10;
+    max-width: 38%;
+    line-height: 1.2;
+    box-shadow: 2px 2px 0 #111;
+  }
+  .bubble-speech {
+    border-radius: 50% / 35%;
+    border: 3px solid #111;
+  }
+  .bubble-speech::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 25%;
+    width: 0; height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-top: 17px solid #111;
+  }
+  .bubble-speech::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 28%;
+    width: 0; height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 11px solid #fff;
+    z-index: 1;
+  }
+  .bubble-thought {
+    border-radius: 50%;
+    border: 3px dashed #111;
+    background: #fafafa;
+    font-style: italic;
+    padding: 16px 20px;
+  }
+  .bubble-thought::after {
+    content: '◌ ◯';
+    position: absolute;
+    bottom: -20px;
+    left: 20%;
+    color: #111;
+    font-size: 0.9rem;
+  }
+  .bubble-shout {
+    background: #fff833;
+    border: 3px solid #111;
+    clip-path: polygon(
+      0% 25%, 6% 12%, 14% 22%, 22% 8%, 32% 20%, 42% 5%, 52% 18%, 62% 4%, 72% 18%, 82% 6%, 92% 20%, 100% 12%,
+      96% 38%, 100% 60%, 96% 80%, 100% 100%,
+      88% 92%, 78% 100%, 68% 90%, 58% 100%, 48% 90%, 38% 100%, 28% 90%, 18% 100%, 8% 90%, 0% 95%,
+      4% 75%, 0% 55%
+    );
+    padding: 14px 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1.5px;
+    max-width: 36%;
+    color: #111;
+  }
+  .bubble-whisper {
+    border-radius: 50% / 30%;
+    border: 2px dotted #555;
+    background: rgba(240,240,240,0.92);
+    color: #444;
+    font-size: 0.75rem;
+    font-style: italic;
+  }
+
+  /* ============ NARRATION ============ */
+  .narration {
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    max-width: 55%;
+    background: rgba(255, 248, 215, 0.96);
+    border: 2px solid #111;
+    padding: 5px 10px;
+    font-family: 'Anton', sans-serif;
+    font-size: 0.76rem;
+    color: #111;
+    z-index: 9;
+    box-shadow: 2px 2px 0 #111;
+    line-height: 1.25;
+  }
+  .narration::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-top: 12px solid #8B0000;
+    border-right: 12px solid transparent;
+  }
+
+  /* ============ ONOMATOPOEIA ============ */
+  .onomatopoeia {
+    position: absolute;
+    font-family: 'Bangers', cursive;
+    font-weight: 900;
+    z-index: 11;
+    pointer-events: none;
+    line-height: 1;
+    letter-spacing: 3px;
+  }
+  .onomatopoeia-impact {
+    font-size: 2.8rem;
+    color: #d4af00;
+    text-shadow:
+      3px 3px 0 #8B0000,
+      5px 5px 0 #111,
+      0 0 15px rgba(200, 60, 0, 0.8);
+    transform: rotate(-8deg);
+  }
+  .onomatopoeia-soft {
+    font-size: 1.5rem;
+    color: #eee;
+    text-shadow: 2px 2px 0 #333, 3px 3px 0 #111;
+    font-style: italic;
+    transform: rotate(-5deg);
+  }
+  .onomatopoeia-energy {
+    font-size: 2.4rem;
+    color: #ffe566;
+    text-shadow:
+      2px 2px 0 #c47800,
+      4px 4px 0 #111,
+      0 0 12px rgba(255, 200, 0, 0.8);
+    transform: rotate(-12deg);
+  }
+  .onomatopoeia-slash {
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 2px 2px 0 #8B0000, 4px 4px 0 #111;
+    transform: rotate(-25deg) skewX(-15deg);
+  }
+
+  /* ============ DISCUSSION ============ */
+  .discussion {
+    margin-top: 40px;
+    padding: 25px 30px;
+    background: #111;
+    color: #d4af00;
+    border: 5px solid #8B0000;
+    box-shadow: 6px 6px 0 #8B0000;
+    text-align: center;
+    transform: rotate(-0.8deg);
+  }
+  .discussion-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    color: #8B0000;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    background: #d4af00;
+    display: inline-block;
+    padding: 4px 16px;
+    transform: rotate(1.5deg);
+  }
+  .discussion-question {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    letter-spacing: 1px;
+  }
+
+  /* ============ FOOTER ============ */
+  .manga-footer {
+    text-align: center;
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 4px solid #111;
+    font-family: 'Anton', sans-serif;
+    color: #555;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+  }
+  .manga-footer span { color: #8B0000; font-weight: bold; }
+
+  /* ============ PRINT ============ */
+  @page { size: A4 portrait; margin: 10mm 8mm; }
+  @media print {
+    html, body { background: white !important; }
+    .manga-page {
+      max-width: 100%;
+      margin: 0; padding: 5mm 0;
+      background: white !important;
+      box-shadow: none;
+    }
+    .manga-header { page-break-after: always; padding: 20mm 0; }
+    .ato-header { page-break-before: always; page-break-inside: avoid; }
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
+    .panel { page-break-inside: avoid; box-shadow: 3px 3px 0 #111; }
+    .bubble, .onomatopoeia, .narration { position: absolute !important; }
+    .discussion { transform: none; page-break-inside: avoid; page-break-before: always; margin: 20mm 5mm; }
+    .manga-footer { page-break-before: avoid; }
+  }
+  @media screen { .manga-page { padding: 50px 20px; } }
+</style>
+</head>
+<body>
+<div class="manga-page">
+
+  <header class="manga-header">
+    <h1 class="manga-title">SANSÃO</h1>
+    <p class="manga-subtitle">O Herói da Força Suprema — Juízes 13 a 16</p>
+    <div class="manga-tag">SHONEN BIBLICAL EPIC</div>
+    <div class="manga-tag-2">30 PAINÉIS COMPLETO</div>
+    <p class="manga-verse">"Os mortos que matou em sua morte foram mais do que os que matou em vida." — Juízes 16:30</p>
+  </header>
+
+  <!-- ═══════════════ ATO I ═══════════════ -->
+  <div class="ato-header">ATO I <span>— O NASCIMENTO PROMETIDO</span></div>
+  <main class="panel-grid">
+
+    <!-- P1 SPLASH — Mulher orando -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_01.png" alt="Mulher orando no campo">
+      <div class="narration">Nos dias dos juízes, Israel gemeu sob o jugo inimigo. E uma mulher estéril derramava sua alma diante de Deus...</div>
+    </div>
+
+    <!-- P2 MED — Anjo aparece -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_02.png" alt="Anjo aparece à mulher">
+      <div class="bubble bubble-speech" style="top:3%; left:3%; max-width:55%;">Eis que conceberás um filho! Ele será consagrado a Deus desde o ventre!</div>
+      <div class="onomatopoeia onomatopoeia-energy" style="top:6%; right:4%;">FWOOSH!</div>
+    </div>
+
+    <!-- P3 MED — Conta ao marido -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_03.png" alt="Mulher conta ao marido">
+      <div class="narration">Ela correu para contar ao marido Manoá...</div>
+      <div class="bubble bubble-speech" style="top:3%; left:3%; max-width:50%;">Um homem de Deus veio a mim — seu rosto era como o de um anjo!</div>
+      <div class="bubble bubble-thought" style="bottom:12%; right:3%; max-width:30%;">Preciso ver esse mensageiro...</div>
+    </div>
+
+    <!-- P4 SPLASH — Anjo ascende nas chamas -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_04.png" alt="Anjo ascende nas chamas">
+      <div class="narration" style="max-width:45%;">O anjo do Senhor ascendeu na chama do altar. Manoá e sua esposa caíram com o rosto em terra.</div>
+      <div class="onomatopoeia onomatopoeia-energy" style="top:6%; right:4%;">BLAZE!!</div>
+      <div class="bubble bubble-whisper" style="bottom:8%; right:4%; max-width:28%;">Certamente morreremos... vimos a Deus.</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO II ═══════════════ -->
+  <div class="ato-header">ATO II <span>— O ESPÍRITO DESPERTA</span></div>
+  <main class="panel-grid">
+
+    <!-- P5 SPLASH — Jovem Sansão -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_05.png" alt="Jovem Sansão com poder">
+      <div class="narration" style="max-width:48%;">O menino cresceu. E o Espírito do Senhor começou a se mover nele nas areias de Zorá...</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:32%;">O QUÊ?! QUE FORÇA É ESSA?!</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="bottom:10%; left:3%;">BOOOM!</div>
+    </div>
+
+    <!-- P6 MED — Viagem a Timnate -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_06.png" alt="Sansão viaja com os pais">
+      <div class="narration">Sansão desceu a Timnate e viu uma mulher filísia que lhe agradou...</div>
+      <div class="bubble bubble-speech" style="top:3%; left:3%; max-width:45%;">Pai, tome-a para mim — ela me agradou.</div>
+      <div class="bubble bubble-thought" style="bottom:10%; right:3%; max-width:32%;">Por que buscar esposa entre os incircuncisos?</div>
+    </div>
+
+    <!-- P7 MED — Leão ataca -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_07.png" alt="Leão ataca Sansão">
+      <div class="narration">No caminho para Timnate, um leão jovem e rugidouro veio ao seu encontro...</div>
+      <div class="onomatopoeia onomatopoeia-soft" style="bottom:12%; left:4%;">GRRROAR!</div>
+      <div class="bubble bubble-thought" style="top:3%; right:3%; max-width:32%;">Não tenho arma... mas tenho mãos.</div>
+    </div>
+
+    <!-- P8 SPLASH — Rasga o leão -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_08.png" alt="Sansão rasga o leão">
+      <div class="narration" style="max-width:50%; background:rgba(255,248,215,0.9);">O Espírito do Senhor apoderou-se dele, e ele o despedaçou como se fosse um cabrito — com as próprias mãos!</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:6%; right:4%;">CRAACK!</div>
+      <div class="bubble bubble-shout" style="bottom:8%; right:3%; max-width:30%;">PODER DO ALTÍSSIMO!!</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO III ═══════════════ -->
+  <div class="ato-header">ATO III <span>— O ENIGMA E A TRAIÇÃO</span></div>
+  <main class="panel-grid">
+
+    <!-- P9 SPLASH — Mel no leão -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_09.png" alt="Sansão encontra mel no leão">
+      <div class="narration" style="max-width:50%;">Dias depois, voltando pelo caminho, achou no esqueleto do leão um enxame de abelhas — e mel!</div>
+      <div class="bubble bubble-thought" style="top:3%; right:3%; max-width:32%;">Do que come saiu comida... e do forte saiu doçura.</div>
+    </div>
+
+    <!-- P10 MED — Banquete do enigma -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_10.png" alt="Banquete e o enigma">
+      <div class="narration">No banquete de casamento, Sansão desafiou trinta companheiros filísteos...</div>
+      <div class="bubble bubble-speech" style="top:3%; left:3%; max-width:50%;">Proponho-vos um enigma: resolva-o em sete dias e ganharão trinta vestes!</div>
+    </div>
+
+    <!-- P11 MED — Esposa pressionada -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_11.png" alt="Esposa de Sansão é pressionada">
+      <div class="narration">No sétimo dia, os filisteus ameaçaram a esposa de Sansão...</div>
+      <div class="bubble bubble-whisper" style="top:3%; right:3%; max-width:34%;">Convença-o a revelar o enigma — ou a sua família pagará!</div>
+      <div class="bubble bubble-thought" style="bottom:10%; left:3%; max-width:32%;">Preciso descobrir... mas isso trairá meu esposo.</div>
+    </div>
+
+    <!-- P12 SPLASH — Fúria de Sansão -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_12.png" alt="Fúria de Sansão">
+      <div class="narration" style="max-width:45%; background:rgba(255,248,215,0.9);">Sansão compreendeu a traição. Seu sangue ferveu com ira justa.</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:5%; left:3%;">DOOM!</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:34%;">SE NÃO ARARASSEM COM MINHA NOVILHA, NÃO TERIAM DECIFRADO!</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO IV ═══════════════ -->
+  <div class="ato-header">ATO IV <span>— O HERÓI INVENCÍVEL</span></div>
+  <main class="panel-grid">
+
+    <!-- P13 SPLASH — Pega a queixada -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_13.png" alt="Sansão pega a queixada">
+      <div class="narration" style="max-width:50%;">Os filisteus vieram contra ele em Leí. Então achou uma queixada fresca de jumento no chão...</div>
+      <div class="bubble bubble-thought" style="top:3%; right:3%; max-width:30%;">Este é meu instrumento.</div>
+      <div class="onomatopoeia onomatopoeia-soft" style="bottom:10%; right:5%;">thud.</div>
+    </div>
+
+    <!-- P14 SPLASH — Batalha épica -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_14.png" alt="Batalha épica com a queixada">
+      <div class="narration" style="bottom:2%; top:auto; max-width:45%; background:rgba(255,248,215,0.96);">Com a queixada de um jumento feriu mil homens!</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:5%; left:3%;">WHAM!!</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:32%;">COM A QUEIXADA DE UM JUMENTO, MONTÕES SOBRE MONTÕES!</div>
+    </div>
+
+    <!-- P15 MED — Portões de Gaza -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_15.png" alt="Portões de Gaza">
+      <div class="narration">Em Gaza, os inimigos planejavam cercá-lo. Mas Sansão acordou à meia-noite...</div>
+      <div class="bubble bubble-thought" style="top:3%; right:3%; max-width:32%;">Eles pensam que estou preso. Pobre engano.</div>
+    </div>
+
+    <!-- P16 MED — Carrega os portões -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_16.png" alt="Sansão carrega os portões">
+      <div class="narration">Arrancou as portas da cidade, pôs tudo nos ombros e subiu ao monte diante de Hebrom!</div>
+      <div class="onomatopoeia onomatopoeia-energy" style="top:5%; left:3%;">KRRRCKKK!</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO V ═══════════════ -->
+  <div class="ato-header">ATO V <span>— A SEDUÇÃO DE DALILA</span></div>
+  <main class="panel-grid">
+
+    <!-- P17 SPLASH — Dalila e os lordes -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_17.png" alt="Sansão e Dalila, lordes observam">
+      <div class="narration" style="max-width:48%;">Depois disso, Sansão amou uma mulher no vale de Soreque, chamada Dalila. Os lordes foram procurá-la com prata...</div>
+      <div class="bubble bubble-whisper" style="top:3%; right:3%; max-width:30%;">Descubra onde está sua grande força... e daremos a ti 1100 peças de prata.</div>
+    </div>
+
+    <!-- P18 MED — Dalila pressiona -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_18.png" alt="Dalila pressiona Sansão">
+      <div class="narration">Três vezes ela tentou. Três vezes ele enganou. Mas ela não parou...</div>
+      <div class="bubble bubble-speech" style="bottom:12%; left:3%; max-width:50%;">Como podes dizer que me amas, se não confias teu coração a mim?</div>
+    </div>
+
+    <!-- P19 MED — Sansão dorme -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_19.png" alt="Sansão dorme no colo de Dalila">
+      <div class="narration">Angustiado até a morte, ele revelou tudo: "Nunca passou navalha sobre minha cabeça..."</div>
+      <div class="onomatopoeia onomatopoeia-soft" style="top:6%; right:4%;">...zzz...</div>
+      <div class="bubble bubble-whisper" style="top:3%; left:3%; max-width:35%;">Desta vez ele me disse tudo o que está em seu coração.</div>
+    </div>
+
+    <!-- P20 SPLASH — A traição -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_20.png" alt="Traição: as tranças são cortadas">
+      <div class="narration" style="max-width:50%; background:rgba(255,248,215,0.94);">Enquanto ele dormia sobre os seus joelhos, um homem rapou as sete tranças da sua cabeça...</div>
+      <div class="onomatopoeia onomatopoeia-slash" style="top:5%; right:4%;">SNICK...</div>
+      <div class="bubble bubble-whisper" style="bottom:8%; left:3%; max-width:30%;">Os filisteus estão sobre ti!</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO VI ═══════════════ -->
+  <div class="ato-header">ATO VI <span>— A QUEDA E O CATIVEIRO</span></div>
+  <main class="panel-grid">
+
+    <!-- P21 SPLASH — Acorda sem poder -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_21.png" alt="Sansão acorda sem poder">
+      <div class="narration" style="max-width:52%;">Acordou do sono e disse: "Sairei como das outras vezes..." Mas não sabia que o Senhor havia partido dele.</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:32%;">O QUÊ—?! ONDE ESTÁ MINHA FORÇA?!</div>
+      <div class="onomatopoeia onomatopoeia-energy" style="bottom:10%; left:3%; color:#aaa; text-shadow: 2px 2px 0 #666;">...gone...</div>
+    </div>
+
+    <!-- P22 MED — Capturado -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_22.png" alt="Sansão capturado">
+      <div class="narration">Os filisteus o prenderam, acorrentaram com bronzes e o levaram a Gaza.</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:5%; right:4%;">CLANK!</div>
+      <div class="bubble bubble-whisper" style="bottom:8%; left:3%; max-width:35%;">O leão de Israel caiu...</div>
+    </div>
+
+    <!-- P23 MED — Trevas (silhueta) -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_23.png" alt="Escuridão e cativeiro">
+      <div class="narration">O que havia sido luz se tornou trevas eternas. O campeão foi humilhado.</div>
+    </div>
+
+    <!-- P24 SPLASH — Moendo no cárcere -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_24.png" alt="Sansão moendo no cárcere">
+      <div class="narration" style="max-width:52%; background:rgba(255,248,215,0.94);">Ele moía no cárcere de Gaza. Mas... o cabelo da sua cabeça começou a crescer de novo.</div>
+      <div class="onomatopoeia onomatopoeia-soft" style="bottom:10%; right:5%;">...grind...</div>
+      <div class="bubble bubble-thought" style="top:3%; right:3%; max-width:32%;">Senhor... lembra-te de mim ainda mais uma vez.</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ ATO VII ═══════════════ -->
+  <div class="ato-header">ATO VII <span>— O SACRIFÍCIO FINAL</span></div>
+  <main class="panel-grid">
+
+    <!-- P25 SPLASH — Grande templo de Dagom -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_25.png" alt="Grande templo de Dagom">
+      <div class="narration" style="max-width:50%;">Os lordes dos filisteus se reuniram para sacrificar a Dagom e celebrar. Três mil no teto. O prisioneiro seria o entretenimento.</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:30%;">SANSÃO! SANSÃO!</div>
+    </div>
+
+    <!-- P26 MED — Oração entre as colunas -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_26.png" alt="Sansão ora entre as colunas">
+      <div class="narration">Sansão pediu ao moço que o guiava: "Deixa-me apalpar as colunas sobre as quais a casa se apoia..."</div>
+      <div class="bubble bubble-speech" style="bottom:10%; left:3%; max-width:52%;">Senhor Deus, lembra-te de mim! Fortifica-me somente esta vez!</div>
+    </div>
+
+    <!-- P27 MED — Empurra as colunas -->
+    <div class="panel panel-medium">
+      <img src="panels/panel_27.png" alt="Sansão empurra as colunas">
+      <div class="narration">Tomou as duas colunas do meio, sobre as quais a casa estava apoiada, e se firme sobre elas...</div>
+      <div class="onomatopoeia onomatopoeia-energy" style="top:5%; right:4%;">KRRRCKKK!</div>
+      <div class="bubble bubble-shout" style="bottom:8%; left:3%; max-width:38%;">MORRA MINHA ALMA COM OS FILISTEUS!</div>
+    </div>
+
+    <!-- P28 SPLASH — As colunas racham -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_28.png" alt="As colunas racham com poder divino">
+      <div class="narration" style="max-width:45%; background:rgba(255,248,215,0.94);">Com todas as suas forças inclinou-se sobre as colunas!</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:5%; left:3%;">BOOOM!!</div>
+      <div class="bubble bubble-shout" style="top:2%; right:2%; max-width:32%;">PELO SENHOR DOS EXÉRCITOS!!</div>
+    </div>
+
+    <!-- P29 SPLASH — O templo desaba -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_29.png" alt="O templo de Dagom desaba">
+      <div class="narration" style="max-width:60%; background:rgba(255,248,215,0.96);">A casa caiu sobre os lordes e sobre todo o povo. Os mortos que matou em sua morte foram mais do que os que matou em vida.</div>
+      <div class="onomatopoeia onomatopoeia-impact" style="top:5%; right:4%;">KRRRASH!!</div>
+    </div>
+
+    <!-- P30 SPLASH — Memorial final -->
+    <div class="panel panel-splash">
+      <img src="panels/panel_30.png" alt="Memorial final de Sansão">
+      <div class="narration" style="max-width:55%; background:rgba(255,248,215,0.96);">Seus irmãos desceram e o sepultaram. Julgou Israel por vinte anos — um guerreiro nascido para a grandeza, que escolheu o maior sacrifício.</div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ PONTO DE DISCUSSÃO ═══════════════ -->
+  <section class="discussion">
+    <div class="discussion-label">💭 PONTO DE DISCUSSÃO</div>
+    <p class="discussion-question">"Em que área da sua vida você tem dependido de suas próprias forças — e precisa lembrar de onde vem sua verdadeira força?"</p>
+  </section>
+
+  <footer class="manga-footer">
+    Criado com <span>Manga Shonen Creator</span> • Powered by Claude + Gemini Nanobanana<br>
+    Adaptação livre de Juízes 13–16 • Para uso educacional e reflexão bíblica
+  </footer>
+
+</div>
+</body>
+</html>
