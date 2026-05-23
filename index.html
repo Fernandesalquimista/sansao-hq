@@ -310,26 +310,33 @@
   }
   .manga-footer span { color: #8B0000; font-weight: bold; }
 
-  /* ============ PRINT ============ */
-  @page { size: A4 portrait; margin: 10mm 8mm; }
+  /* ============ PRINT — rolagem contínua (webcomic) ============ */
+  @page { margin: 0; }
   @media print {
-    html, body { background: white !important; }
+    html, body { background: #f5f0e8 !important; }
     .manga-page {
       max-width: 100%;
-      margin: 0; padding: 5mm 0;
-      background: white !important;
+      margin: 0; padding: 10mm 5mm;
+      background: linear-gradient(160deg, #f5f0e8 0%, #ede4d3 100%) !important;
       box-shadow: none;
     }
-    .manga-header { page-break-after: always; padding: 20mm 0; }
-    .ato-header { page-break-before: always; page-break-inside: avoid; }
+    /* SEM page-break — documento flui como rolagem única */
+    .manga-header, .ato-header, .panel, .discussion {
+      page-break-before: auto !important;
+      page-break-after:  auto !important;
+      page-break-inside: auto !important;
+      break-before: auto !important;
+      break-after:  auto !important;
+      break-inside: auto !important;
+    }
     .panel-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 4px;
+      gap: 10px;
     }
-    .panel { page-break-inside: avoid; box-shadow: 3px 3px 0 #111; }
+    .panel { box-shadow: 4px 4px 0 #111; }
     .bubble, .onomatopoeia, .narration { position: absolute !important; }
-    .discussion { transform: none; page-break-inside: avoid; page-break-before: always; margin: 20mm 5mm; }
+    .discussion { transform: rotate(-0.8deg); }
     .manga-footer { page-break-before: avoid; }
   }
   @media screen { .manga-page { padding: 50px 20px; } }
